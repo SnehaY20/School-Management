@@ -1,0 +1,26 @@
+{
+  "name": "nodetemplate",
+  "version": "1.0.0",
+  "description": "Boiler plate code to setup a Nodejs project using Express framework and MongoDB.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "nodemon backend/server.js"
+  },
+  "author": "Sneha Yadav",
+  "license": "MIT",
+  "devDependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "nodemon": "^3.1.7"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cloudinary": "^2.5.1",
+    "cookie-parser": "^1.4.7",
+    "express-fileupload": "^1.5.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.8.2",
+    "multer": "^1.4.5-lts.1"
+  }
+}
