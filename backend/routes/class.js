@@ -12,12 +12,10 @@ const {
 const { protect, authorizeRoles } = require("../middleware/auth.js");
 
 // Protected routes, only accessible by admin users
-router.post("/", protect, authorizeRoles("admin"), addClass); 
-router.put("/classes/:id", protect, authorizeRoles("admin"), updateClass); 
-router.delete("/classes/:id", protect, authorizeRoles("admin"), deleteClass); 
-
-// Public routes
+router.post("/", protect, authorizeRoles("admin"), addClass);
 router.get("/", getClasses);
-router.get("/classes/:id", getClassById);
+router.get("/:id", getClassById);
+router.put("/:id", protect, authorizeRoles("admin"), updateClass);
+router.delete("/:id", protect, authorizeRoles("admin"), deleteClass);
 
 module.exports = router;

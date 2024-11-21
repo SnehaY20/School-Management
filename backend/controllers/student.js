@@ -41,11 +41,14 @@ exports.getStudents = asyncHandler(async (req, res, next) => {
 // @route    GET /api/v1/students/:id
 // @access   Private
 exports.getStudentById = asyncHandler(async (req, res, next) => {
-  const student = await Student.findById(req.params.id)
+  const student = await Student.findOne({
+    _id: req.params.id,
+    role: "student",
+  })
     .populate("classId", "name")
     .select("name classId email profileImageUrl");
 
-  if (!student || student.role !== "student") {
+  if (!student) {
     return next(
       new ErrorResponse(`Student with ID ${req.params.id} not found`, 404)
     );
@@ -61,21 +64,33 @@ exports.getStudentById = asyncHandler(async (req, res, next) => {
 // @route    PUT /api/v1/students/:id
 // @access   Private
 exports.updateStudent = asyncHandler(async (req, res, next) => {
-  const { name, classId, profileImageUrl } = req.body;
-  const updateData = { name, classId, profileImageUrl };
+  const { name, subject, profileImageUrl } = req.body;
+  const updateData = { name, subject, profileImageUrl };
 
-  const student = await Student.findByIdAndUpdate(req.params.id, updateData, {
-    new: true,
-    runValidators: true,
-  });
+  const student = await Student.findById(req.params.id);
 
   if (!student || student.role !== "student") {
     return next(new ErrorResponse("Student not found", 404));
   }
 
+  // Check if the current user is authorized (admin or the student themselves)
+  if (
+    req.user.role !== "admin" &&
+    req.user.id.toString() !== student._id.toString()
+  ) {
+    return next(new ErrorResponse("Unauthorized to update this student", 403));
+  }
+
+  // Use findByIdAndUpdate to update the student
+  const updatedStudent = await Student.findByIdAndUpdate(
+    req.params.id,
+    updateData,
+    { new: true, runValidators: true }
+  );
+
   res.status(200).json({
     success: true,
-    data: student,
+    data: updatedStudent,
   });
 });
 
@@ -89,11 +104,19 @@ exports.deleteStudent = asyncHandler(async (req, res, next) => {
     return next(new ErrorResponse("Student not found", 404));
   }
 
-  await student.remove();
+  // Ensure the user can delete only their own data or has admin privileges
+  if (req.user.role !== "admin" && req.user.id !== student._id.toString()) {
+    return next(
+      new ErrorResponse("Not authorized to delete this student", 403)
+    );
+  }
+
+  // Mark as deleted or remove the student
+  await Student.findByIdAndDelete(req.params.id);
 
   res.status(200).json({
     success: true,
-    message: "Student deleted",
+    message: "Student deleted successfully",
   });
 });
 

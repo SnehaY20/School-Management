@@ -29,35 +29,6 @@ exports.addClass = asyncHandler(async (req, res, next) => {
   });
 });
 
-// @desc     Assign a teacher to a class
-// @route    PUT /api/v1/classes/:id/assign-teacher
-// @access   Private
-exports.assignTeacher = asyncHandler(async (req, res, next) => {
-  const { teacherId } = req.body;
-
-  // Validate teacher existence
-  const teacher = await Teacher.findById(teacherId);
-  if (!teacher || teacher.role !== "teacher") {
-    return next(new ErrorResponse("Invalid or non-existent teacher ID", 400));
-  }
-
-  const classData = await Class.findByIdAndUpdate(
-    req.params.id,
-    { teacherId },
-    { new: true, runValidators: true }
-  ).populate("teacherId");
-
-  if (!classData) {
-    return next(new ErrorResponse("Class not found", 404));
-  }
-
-  res.status(200).json({
-    success: true,
-    message: "Teacher assigned successfully",
-    data: classData,
-  });
-});
-
 // @desc     Get all classes
 // @route    GET /api/v1/classes
 // @access   Private
@@ -65,7 +36,7 @@ exports.getClasses = asyncHandler(async (req, res, next) => {
   const { page = 1, limit = 10 } = req.query;
 
   const classes = await Class.find()
-    .populate("teacherId", "name subject") 
+    .populate("teacherId", "name subject")
     .skip((page - 1) * limit)
     .limit(Number(limit));
 

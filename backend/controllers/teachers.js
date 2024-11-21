@@ -41,7 +41,7 @@ exports.getTeacherById = asyncHandler(async (req, res, next) => {
     "name subject profileImageUrl"
   );
 
-  if (!teacher || teacher.role !== "teacher") {
+  if (!teacher) {
     return next(
       new ErrorResponse(`Teacher with ID ${req.params.id} not found`, 404)
     );
@@ -96,11 +96,19 @@ exports.deleteTeacher = asyncHandler(async (req, res, next) => {
     return next(new ErrorResponse("Teacher not found", 404));
   }
 
-  await teacher.remove();
+  // Ensure the user can delete only their own data or has admin privileges
+  if (req.user.role !== "admin" && req.user.id !== teacher._id.toString()) {
+    return next(
+      new ErrorResponse("Not authorized to delete this teacher", 403)
+    );
+  }
+
+  // Use findByIdAndDelete for deletion
+  await Teacher.findByIdAndDelete(req.params.id);
 
   res.status(200).json({
     success: true,
-    message: "Teacher deleted",
+    message: "Teacher deleted successfully",
   });
 });
 
