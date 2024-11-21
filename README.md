@@ -1,4 +1,4 @@
-# School Management System
+# School Management 
 
 ## Description
 
@@ -54,5 +54,5 @@ This project is a backend API for managing a school system with features for man
 1. Clone the repository:
    ```bash
    git clone <repository-link>
-   cd school-management-system
+   cd SchoolManagement
    ```
