@@ -7,7 +7,7 @@ const classSchema = new mongoose.Schema({
   },
   teacherId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User", // Change "Teacher" to "User" because the teacher is a user
+    ref: "User", 
     required: true,
   },
   studentCount: {

@@ -11,10 +11,10 @@ const {
 const { protect, authorizeRoles } = require("../middleware/auth");
 
 // Routes
-router.get("/", protect, authorizeRoles("admin", "teacher"), getTeachers); // Admin & teacher can view
-router.get("/:id", protect, authorizeRoles("admin", "teacher"), getTeacherById); // Admin & teacher can view by ID
-router.put("/:id", protect, authorizeRoles("admin", "teacher"), updateTeacher); // Admin & teacher can update
-router.delete("/:id", protect, authorizeRoles("admin"), deleteTeacher); // Only admin can delete
+router.get("/", protect, authorizeRoles("admin", "teacher"), getTeachers); 
+router.get("/:id", protect, authorizeRoles("admin", "teacher"), getTeacherById); 
+router.put("/:id", protect, authorizeRoles("admin", "teacher"), updateTeacher); 
+router.delete("/:id", protect, authorizeRoles("admin"), deleteTeacher); 
 router.put(
   "/:id/photo",
   protect,

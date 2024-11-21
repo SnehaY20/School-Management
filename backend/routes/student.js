@@ -9,18 +9,18 @@ const {
 } = require("../controllers/student.js");
 const { protect, authorizeRoles } = require("../middleware/auth");
 
-// Routes for getting students
-router.get("/", protect, authorizeRoles("admin", "student"), getStudents); // Admin & Student can access
-router.get("/:id", protect, authorizeRoles("admin", "student"), getStudentById); // Admin & Student can access
+
+router.get("/", protect, authorizeRoles("admin", "student"), getStudents); 
+router.get("/:id", protect, authorizeRoles("admin", "student"), getStudentById); 
 
 // Routes for updating and deleting students
-router.put("/:id", protect, authorizeRoles("admin", "student"), updateStudent); // Admin & Student can update
+router.put("/:id", protect, authorizeRoles("admin", "student"), updateStudent); 
 router.delete(
   "/:id",
   protect,
   authorizeRoles("admin", "student"),
   deleteStudent
-); // Admin & Student can delete
+); 
 router.put(
   "/:id/photo",
   protect,

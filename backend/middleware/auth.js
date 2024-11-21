@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const asyncHandler = require("../middleware/asyncHandler");
 const ErrorResponse = require("../utils/errorResponse");
-const User = require("../models/User"); // Import the User model
+const User = require("../models/User"); 
 
 // Protect routes for authenticated users
 exports.protect = asyncHandler(async (req, res, next) => {
@@ -14,7 +14,7 @@ exports.protect = asyncHandler(async (req, res, next) => {
   ) {
     token = req.headers.authorization.split(" ")[1];
   } else if (req.cookies && req.cookies.token) {
-    token = req.cookies.token; // Ensure you use cookie-parser middleware for this
+    token = req.cookies.token; //  use cookie-parser middleware 
   }
 
   // Ensure token is present

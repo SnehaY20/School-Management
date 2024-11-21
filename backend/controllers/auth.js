@@ -44,7 +44,7 @@ exports.register = asyncHandler(async (req, res, next) => {
       name,
       email,
       role,
-      password, // Admin does not have a subject or classId
+      password, 
     });
   }
 
@@ -54,11 +54,11 @@ exports.register = asyncHandler(async (req, res, next) => {
 
 // Helper function to send the JWT token in the response
 const sendTokenResponse = (user, statusCode, res) => {
-  const token = user.getSignedJwtToken(); // Create a token using the user method
+  const token = user.getSignedJwtToken(); 
 
   const userData = {
     id: user._id,
-    name: user.name || null, // If no name is provided (e.g., admin), return null
+    name: user.name || null, 
     email: user.email,
     role: user.role,
     token,

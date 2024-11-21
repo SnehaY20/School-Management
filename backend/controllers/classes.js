@@ -65,7 +65,7 @@ exports.getClasses = asyncHandler(async (req, res, next) => {
   const { page = 1, limit = 10 } = req.query;
 
   const classes = await Class.find()
-    .populate("teacherId", "name subject") // Populate teacher's name and subject
+    .populate("teacherId", "name subject") 
     .skip((page - 1) * limit)
     .limit(Number(limit));
 
