@@ -1,4 +1,4 @@
-# School Management 
+# School Management
 
 ## Description
 
@@ -11,13 +11,11 @@ This project is a backend API for managing a school system with features for man
 1. **Students Management**
 
    - Add, view (with pagination and filtering), update, and delete students.
-   - Soft delete functionality.
    - Profile image upload via Cloudinary.
 
 2. **Teachers Management**
 
    - Add, view (with pagination), update, and delete teachers.
-   - Soft delete functionality.
    - Profile image upload via Cloudinary.
 
 3. **Classes Management**
